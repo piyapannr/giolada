@@ -1,0 +1,48 @@
+html,
+body {
+	margin:0;
+	padding:0;
+	height:100%;
+	background-image: url(../img/background.png);
+    background-repeat:no-repeat;
+    background-size: cover;
+}
+#wrapper {
+	min-height:100%;
+	position:relative;
+}
+#header {
+	padding:10px;
+	/*background:#5ee;*/
+}
+#content {
+	padding:10px;
+	padding-bottom:80px;   /* Height of the footer element */
+	/*background:red;*/
+}
+#footer {
+	width:100%;
+	height:80px;
+	position:absolute;
+	bottom:0;
+	left:0;
+	/*background:#ee5;*/
+}
+hr { background-color: #744A4A; height: 1px; border: 0; width: 1020px; }
+
+
+#menuprice{
+	width:200px;
+	height:80px;
+	padding-top: 150px;
+	
+}
+
+.gfont{
+	color: #58595B;
+}
+
+.bfont{
+	color: #73421B;
+}
+
