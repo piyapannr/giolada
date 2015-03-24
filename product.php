@@ -1,6 +1,38 @@
 <?php
 include 'header.php';
-include 'menu.php'
+include 'menu.php';
+
+switch (Input::get('tid')) {
+    case 0:
+        $type = 'earing';
+        break;
+    case 1:
+        $type = 'necklace';
+        break;
+    case 2:
+        $type = 'ring';
+        break;
+    case 3:
+        $type = 'bangle';
+        break;
+    case 4:
+        $type = 'brooch';
+        break;
+    case 5:
+        $type = 'set';
+        break;
+    case 6:
+        $type = 'watch';
+        break;
+}
+$product_table = 'product_' . $type;
+
+$min = (Input::get('min') != '') ? Input::get('min') : 0;
+$max = (Input::get('max') != '') ? Input::get('max') : 999999;
+
+function pfilter($lmin, $lmax) {
+    return ('tid=' . Input::get('tid') . '&min=' . $lmin . '&max=' . $lmax);
+}
 ?>
 <?php $page = "product.php"; ?>
 <div class="row">
@@ -9,261 +41,37 @@ include 'menu.php'
             <div class="gfont boon-300">Price Filter</div>
         </div>
         <div class="row" style="padding-top:5px;">
-            <button type="button" class="btn btn-default custom"><span class="glyphicon glyphicon-tags" aria-hidden="true"></span>&nbsp; 99 THB - 395 THB</button>
+            <a href="product.php?<?=pfilter(99, 395)?>"><button type="button" class="btn btn-default custom"><span class="glyphicon glyphicon-tags" aria-hidden="true"></span>&nbsp; 99 THB - 395 THB</button></a>
         </div>
         <div class="row" style="padding-top:10px;">
-            <button type="button" class="btn btn-default custom"><span class="glyphicon glyphicon-tags" aria-hidden="true"></span>&nbsp; 445 THB - 955 THB</button>
+            <a href="product.php?<?=pfilter(445, 955)?>"><button type="button" class="btn btn-default custom"><span class="glyphicon glyphicon-tags" aria-hidden="true"></span>&nbsp; 445 THB - 955 THB</button></a>
         </div>
         <div class="row" style="padding-top:10px;">
-            <button type="button" class="btn btn-default custom "><span class="glyphicon glyphicon-tags" aria-hidden="true"></span>&nbsp; 1,145 THB - 1,995 THB</button>
+            <a href="product.php?<?=pfilter(1145, 1995)?>"><button type="button" class="btn btn-default custom "><span class="glyphicon glyphicon-tags" aria-hidden="true"></span>&nbsp; 1,145 THB - 1,995 THB</button></a>
         </div>
     </div>
     <div class="col-xs-6 col-md-9" style="padding-top:30px;">
+        <?php
+        $product_table = 'product_' . $type;
+        $products = Database::getInstance()->get($product_table, array('id', '>', 0));
+
+        if($products->count()) {
+            foreach($products->results() as $item) {
+                if($min <= $item->price && $item->price <= $max) {
+        ?>
         <div id="productbox" >
             <div class="col-md-3 column productbox">
-                <center><img src="img/ring1.jpg" class="img-responsive" height="120" width="120"></center>
-                <div class="producttitle">Product 2</div>
+                <center><img src="uploads/thumbs/thumb_<?=$item->img?>" class="img-responsive" height="120" width="120"></center>
+                <div class="producttitle"><?=$item->name?></div>
                 <div class="productprice">
                     <div class="pull-right"><a href="#" class="btn btn-info btn-sm" role="button">View</a></div>
-                    <div class="pricetext">£8.95</div>
+                    <div class="pricetext"><?=$item->price?></div>
                 </div>
             </div>
-            <div class="col-md-3 column productbox">
-                <center><img src="img/ring2.jpg" class="img-responsive" height="120" width="120"></center>
-                <div class="producttitle">Product 2</div>
-                <div class="productprice">
-                    <div class="pull-right"><a href="#" class="btn btn-info btn-sm" role="button">View</a></div>
-                    <div class="pricetext">£8.95</div>
-                </div>
-            </div>
-            <div class="col-md-3 column productbox">
-                <center><img src="img/ring3.jpg" class="img-responsive" height="120" width="120"></center>
-                <div class="producttitle">Product 2</div>
-                <div class="productprice">
-                    <div class="pull-right"><a href="#" class="btn btn-info btn-sm" role="button">View</a></div>
-                    <div class="pricetext">£8.95</div>
-                </div>
-            </div>
-            <div class="col-md-3 column productbox">
-                <center><img src="img/ring4.gif" class="img-responsive" height="120" width="120"></center>
-                <div class="producttitle">Product 2</div>
-                <div class="productprice">
-                    <div class="pull-right"><a href="#" class="btn btn-info btn-sm" role="button">View</a></div>
-                    <div class="pricetext">£8.95</div>
-                </div>
-            </div>
-            <div class="col-md-3 column productbox">
-                <center><img src="img/ring5.jpg" class="img-responsive" height="120" width="120"></center>
-                <div class="producttitle">Product 2</div>
-                <div class="productprice">
-                    <div class="pull-right"><a href="#" class="btn btn-info btn-sm" role="button">View</a></div>
-                    <div class="pricetext">£8.95</div>
-                </div>
-            </div>
-            <div class="col-md-3 column productbox">
-                <center><img src="img/ring6.jpg" class="img-responsive" height="120" width="120"></center>
-                <div class="producttitle">Product 2</div>
-                <div class="productprice">
-                    <div class="pull-right"><a href="#" class="btn btn-info btn-sm" role="button">View</a></div>
-                    <div class="pricetext">£8.95</div>
-                </div>
-            </div>
-            <div class="col-md-3 column productbox">
-                <center><img src="img/ring7.jpg" class="img-responsive" height="120" width="120"></center>
-                <div class="producttitle">Product 2</div>
-                <div class="productprice">
-                    <div class="pull-right"><a href="#" class="btn btn-info btn-sm" role="button">View</a></div>
-                    <div class="pricetext">£8.95</div>
-                </div>
-            </div>
-            <div class="col-md-3 column productbox">
-                <center><img src="img/ring8.jpg" class="img-responsive" height="120" width="120"></center>
-                <div class="producttitle">Product 2</div>
-                <div class="productprice">
-                    <div class="pull-right"><a href="#" class="btn btn-info btn-sm" role="button">View</a>
-                    </div>
-                    <div class="pricetext">£8.95</div>
-                </div>
-            </div>
-            <div class="col-md-3 column productbox">
-                <center><img src="img/ring9.jpg" class="img-responsive" height="120" width="120"></center>
-                <div class="producttitle">Product 2</div>
-                <div class="productprice">
-                    <div class="pull-right"><a href="#" class="btn btn-info btn-sm" role="button">View</a></div>
-                    <div class="pricetext">£8.95</div>
-                </div>
-            </div>
-            <div class="col-md-3 column productbox">
-                <center><img src="img/ring2.jpg" class="img-responsive" height="120" width="120"></center>
-                <div class="producttitle">Product 2</div>
-                <div class="productprice">
-                    <div class="pull-right"><a href="#" class="btn btn-info btn-sm" role="button">View</a></div>
-                    <div class="pricetext">£8.95</div>
-                </div>
-            </div>
-            <div class="col-md-3 column productbox">
-                <center><img src="img/ring1.jpg" class="img-responsive" height="120" width="120"></center>
-                <div class="producttitle">Product 2</div>
-                <div class="productprice">
-                    <div class="pull-right"><a href="#" class="btn btn-info btn-sm" role="button">View</a></div>
-                    <div class="pricetext">£8.95</div>
-                </div>
-            </div>
-            <div class="col-md-3 column productbox">
-                <center><img src="img/ring5.jpg" class="img-responsive" height="120" width="120"></center>
-                <div class="producttitle">Product 2</div>
-                <div class="productprice">
-                    <div class="pull-right"><a href="#" class="btn btn-info btn-sm" role="button">View</a></div>
-                    <div class="pricetext">£8.95</div>
-                </div>
-            </div>
-            <div class="col-md-3 column productbox">
-                <center><img src="img/ring8.jpg" class="img-responsive" height="120" width="120"></center>
-                <div class="producttitle">Product 2</div>
-                <div class="productprice">
-                    <div class="pull-right"><a href="#" class="btn btn-info btn-sm" role="button">View</a>
-                    </div>
-                    <div class="pricetext">£8.95</div>
-                </div>
-            </div>
-            <div class="col-md-3 column productbox">
-                <center><img src="img/ring9.jpg" class="img-responsive" height="120" width="120"></center>
-                <div class="producttitle">Product 2</div>
-                <div class="productprice">
-                    <div class="pull-right"><a href="#" class="btn btn-info btn-sm" role="button">View</a></div>
-                    <div class="pricetext">£8.95</div>
-                </div>
-            </div>
-            <div class="col-md-3 column productbox">
-                <center><img src="img/ring2.jpg" class="img-responsive" height="120" width="120"></center>
-                <div class="producttitle">Product 2</div>
-                <div class="productprice">
-                    <div class="pull-right"><a href="#" class="btn btn-info btn-sm" role="button">View</a></div>
-                    <div class="pricetext">£8.95</div>
-                </div>
-            </div>
-            <div class="col-md-3 column productbox">
-                <center><img src="img/ring3.jpg" class="img-responsive" height="120" width="120"></center>
-                <div class="producttitle">Product 2</div>
-                <div class="productprice">
-                    <div class="pull-right"><a href="#" class="btn btn-info btn-sm" role="button">View</a></div>
-                    <div class="pricetext">£8.95</div>
-                </div>
-            </div>
-            <div class="col-md-3 column productbox">
-                <center><img src="img/ring4.gif" class="img-responsive" height="120" width="120"></center>
-                <div class="producttitle">Product 2</div>
-                <div class="productprice">
-                    <div class="pull-right"><a href="#" class="btn btn-info btn-sm" role="button">View</a></div>
-                    <div class="pricetext">£8.95</div>
-                </div>
-            </div>
-            <div class="col-md-3 column productbox">
-                <center><img src="img/ring5.jpg" class="img-responsive" height="120" width="120"></center>
-                <div class="producttitle">Product 2</div>
-                <div class="productprice">
-                    <div class="pull-right"><a href="#" class="btn btn-info btn-sm" role="button">View</a></div>
-                    <div class="pricetext">£8.95</div>
-                </div>
-            </div>
-            <div class="col-md-3 column productbox">
-                <center><img src="img/ring6.jpg" class="img-responsive" height="120" width="120"></center>
-                <div class="producttitle">Product 2</div>
-                <div class="productprice">
-                    <div class="pull-right"><a href="#" class="btn btn-info btn-sm" role="button">View</a></div>
-                    <div class="pricetext">£8.95</div>
-                </div>
-            </div>
-            <div class="col-md-3 column productbox">
-                <center><img src="img/ring1.jpg" class="img-responsive" height="120" width="120"></center>
-                <div class="producttitle">Product 2</div>
-                <div class="productprice">
-                    <div class="pull-right"><a href="#" class="btn btn-info btn-sm" role="button">View</a></div>
-                    <div class="pricetext">£8.95</div>
-                </div>
-            </div>
-            <div class="col-md-3 column productbox">
-                <center><img src="img/ring2.jpg" class="img-responsive" height="120" width="120"></center>
-                <div class="producttitle">Product 2</div>
-                <div class="productprice">
-                    <div class="pull-right"><a href="#" class="btn btn-info btn-sm" role="button">View</a></div>
-                    <div class="pricetext">£8.95</div>
-                </div>
-            </div>
-            <div class="col-md-3 column productbox">
-                <center><img src="img/ring3.jpg" class="img-responsive" height="120" width="120"></center>
-                <div class="producttitle">Product 2</div>
-                <div class="productprice">
-                    <div class="pull-right"><a href="#" class="btn btn-info btn-sm" role="button">View</a></div>
-                    <div class="pricetext">£8.95</div>
-                </div>
-            </div>
-            <div class="col-md-3 column productbox">
-                <center><img src="img/ring4.gif" class="img-responsive" height="120" width="120"></center>
-                <div class="producttitle">Product 2</div>
-                <div class="productprice">
-                    <div class="pull-right"><a href="#" class="btn btn-info btn-sm" role="button">View</a></div>
-                    <div class="pricetext">£8.95</div>
-                </div>
-            </div>
-            <div class="col-md-3 column productbox">
-                <center><img src="img/ring5.jpg" class="img-responsive" height="120" width="120"></center>
-                <div class="producttitle">Product 2</div>
-                <div class="productprice">
-                    <div class="pull-right"><a href="#" class="btn btn-info btn-sm" role="button">View</a></div>
-                    <div class="pricetext">£8.95</div>
-                </div>
-            </div>
-            <div class="col-md-3 column productbox">
-                <center><img src="img/ring2.jpg" class="img-responsive" height="120" width="120"></center>
-                <div class="producttitle">Product 2</div>
-                <div class="productprice">
-                    <div class="pull-right"><a href="#" class="btn btn-info btn-sm" role="button">View</a></div>
-                    <div class="pricetext">£8.95</div>
-                </div>
-            </div>
-            <div class="col-md-3 column productbox">
-                <center><img src="img/ring1.jpg" class="img-responsive" height="120" width="120"></center>
-                <div class="producttitle">Product 2</div>
-                <div class="productprice">
-                    <div class="pull-right"><a href="#" class="btn btn-info btn-sm" role="button">View</a></div>
-                    <div class="pricetext">£8.95</div>
-                </div>
-            </div>
-            <div class="col-md-3 column productbox">
-                <center><img src="img/ring5.jpg" class="img-responsive" height="120" width="120"></center>
-                <div class="producttitle">Product 2</div>
-                <div class="productprice">
-                    <div class="pull-right"><a href="#" class="btn btn-info btn-sm" role="button">View</a></div>
-                    <div class="pricetext">£8.95</div>
-                </div>
-            </div>
-            <div class="col-md-3 column productbox">
-                <center><img src="img/ring8.jpg" class="img-responsive" height="120" width="120"></center>
-                <div class="producttitle">Product 2</div>
-                <div class="productprice">
-                    <div class="pull-right"><a href="#" class="btn btn-info btn-sm" role="button">View</a>
-                    </div>
-                    <div class="pricetext">£8.95</div>
-                </div>
-            </div>
-            <div class="col-md-3 column productbox">
-                <center><img src="img/ring9.jpg" class="img-responsive" height="120" width="120"></center>
-                <div class="producttitle">Product 2</div>
-                <div class="productprice">
-                    <div class="pull-right"><a href="#" class="btn btn-info btn-sm" role="button">View</a></div>
-                    <div class="pricetext">£8.95</div>
-                </div>
-            </div>
-            <div class="col-md-3 column productbox">
-                <center><img src="img/ring2.jpg" class="img-responsive" height="120" width="120"></center>
-                <div class="producttitle">Product 2</div>
-                <div class="productprice">
-                    <div class="pull-right"><a href="#" class="btn btn-info btn-sm" role="button">View</a></div>
-                    <div class="pricetext">£8.95</div>
-                </div>
-            </div>
-        </div><br>
+        </div>
+
+        <?php }}} ?>
+
     </div>
     </div><!-- .row -->
     <hr>

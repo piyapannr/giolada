@@ -1,7 +1,7 @@
 <?php
  include 'header.php';
 ?>
-
+  <div class="contain"><!-- .content -->
     <div class="row">
       <div class="col-md-3 col-md-offset-4" style="padding-left:110px;padding-top:50px;">
         <img src="img/about.png">
@@ -13,17 +13,6 @@
       </div>
     </div>
   </div><!-- .content -->
-
-
-
-
-
-
-
-
-
-
-
 <?php
   include 'footer.php';
 ?>
