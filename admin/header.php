@@ -83,7 +83,7 @@ require_once 'engine/init.php';
                             <li <?php if ($page == "product.php") echo ' class="active"'; ?>class="dropdown">
                                 <a href class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Stocks <span class="caret"></span></a>
                                 <ul class="dropdown-menu" role="menu">
-                                    <li><a href="addproduct.php">Add Product</a></li>
+                                    <li><a href="addproduct.php?tid=0">Add Product</a></li>
                                     <li class="divider"></li>
                                     <li><a href="product.php">Manage Product</a></li>
                                 </ul>
